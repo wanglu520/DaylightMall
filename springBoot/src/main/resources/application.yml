@@ -1,0 +1,40 @@
+#spring:
+#  application:
+#    name: service
+#management:
+##  endpoints:
+##    jmx:
+##      exposure:
+##        include: *
+##    web:
+##      exposure:
+##        include: *
+#  endpoint:
+#    health:
+#      show-details: always
+# spring cloud access&secret config
+# 可以访问如下地址查看: https://usercenter.console.aliyun.com/#/manage/ak
+# alibaba.cloud.access-key=****
+# alibaba.cloud.secret-key=****
+# 应用服务 WEB 访问端口
+server:
+  port: 8088
+# Actuator Web 访问端口
+management:
+  server:
+    port: 8081
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.service.dao
+  column-underline: true
+#jdbc信息
+spring:
+  datasource:
+    name: myself  #数据库名
+    url: jdbc:mysql://localhost:3306/myTerritory?serverTimezone=GMT #url
+    username: root  #用户名
+    password: 1  #密码
+    driver-class-name: com.mysql.jdbc.Driver  #数据库链接驱动
+
+
+
