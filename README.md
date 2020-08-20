@@ -1,0 +1,2 @@
+# DaylightMall
+使用springBoot+vue开发线上商城支持小程序 手机浏览器和pc端商城管理系统本项目仅用于学习练习
