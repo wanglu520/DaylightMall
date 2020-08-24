@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.service.OutPutObject;
+import com.example.service.Utils.JwtUtils;
 import com.example.service.dao.User;
 import com.example.service.mapper.UserMapper;
 import com.example.service.serviceImpl.Impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,8 @@ public class UserController extends BaseServiceImpl {
 
     @Autowired(required=false)
     private UserMapper userMapper;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @RequestMapping(value = "/findAll")
     public List<User> findAll(){
@@ -44,6 +48,8 @@ public class UserController extends BaseServiceImpl {
         //mybatis sql注解
         List<Map<String, Object>> users = userMapper.getUserByUserAccount(username, password);
         if(users != null && users.size() > 0){
+            String id = String.valueOf(users.get(0).get("user_id"));
+            String token = jwtUtils.getToken(id, username);
             outPutObject.setBeans(users);
         }else {
             outPutObject.setReturnCode("-9999");

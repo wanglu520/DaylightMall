@@ -13,6 +13,6 @@ public interface UserMapper {
     List<User> findAll();
     @Select("select user_password, user_account from t_user where user_id=#{id}")
     User getUserById(String id);
-    @Select("select user_password, user_account from t_user where user_account=#{myName} and user_password=#{password}")
+    @Select("select user_id, user_password, user_account from t_user where user_account=#{myName} and user_password=#{password}")
     List<Map<String, Object>> getUserByUserAccount(@Param("myName") String myName, @Param("password") String password);
 }
