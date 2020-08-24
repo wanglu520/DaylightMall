@@ -6,7 +6,17 @@ axios.defaults.timeout = 10000
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 // 请求拦截
-// axios.interceptors.request.use()
+axios.interceptors.request.use(
+  config => {
+    if (localStorage.getItem('token')) {
+      config.headers.Authorization = localStorage.getItem('token')
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 // 响应拦截器
 axios.interceptors.response.use(
   response => {
@@ -28,4 +38,4 @@ axios.interceptors.response.use(
     }
   }
 )
-export default class myAxios extends axios {}
+export default class myAxios extends axios { }

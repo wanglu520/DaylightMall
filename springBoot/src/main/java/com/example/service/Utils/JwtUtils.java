@@ -50,7 +50,13 @@ public class JwtUtils {
     * @return
     */
     public Claims parseJwt(String token) {
-         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-         return claims;
+        try {
+            Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+            return claims;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
      }
 }

@@ -13,6 +13,7 @@ public class OutPutObject implements Serializable {
     private String returnMessage;
     private Map<String, Object> bean;
     private List<Map<String, Object>> beans;
+    private String userKey;
     public OutPutObject(){}
     public OutPutObject(String returnCode){
         this.setReturnCode(returnCode);
@@ -53,4 +54,11 @@ public class OutPutObject implements Serializable {
         this.beans = beans;
     }
 
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
 }

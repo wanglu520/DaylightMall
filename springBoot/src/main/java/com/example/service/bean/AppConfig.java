@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     @Bean
     public JwtUtils jwtUtils(){
-        System.out.println("99999999999999999999999999999999999999999999999999999999999999999999999999999999");
         return new JwtUtils();
     }
 }
