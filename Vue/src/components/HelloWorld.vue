@@ -32,7 +32,7 @@
             </el-col>
           </el-row>
         </el-header>
-        <el-main style="padding:0px;">
+        <el-main style="padding:10px;">
           <MainBar />
         </el-main>
       </el-container>

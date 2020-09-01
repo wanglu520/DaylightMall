@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 axios.defaults.baseURL = '/api' // 关键代码
 // 请求超时时间
@@ -31,6 +32,9 @@ axios.interceptors.response.use(
     let originalRequest = error.config
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1 && !originalRequest._retry) {
       return Promise.reject(new Error('请检查网络再重新连接'))
+    } else if (error.response && error.response.status === 401) { // token校验不通过
+      localStorage.removeItem('token')
+      router.replace({ path: '/' })
     } else if (error.response && error.response.status) {
       return Promise.reject(error.response)
     } else {

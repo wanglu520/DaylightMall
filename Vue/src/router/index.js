@@ -22,7 +22,7 @@ export default new Router({
       children: [
         {
           path: 'main',
-          component: Test,
+          component: () => import('@/views/homePage/index'),
           meta: {
             title: '首页'
           }

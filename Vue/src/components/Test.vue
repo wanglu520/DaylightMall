@@ -32,7 +32,7 @@ export default {
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          { min: 3, max: 10, message: "密码3-5位", trigger: "blur" }
+          { min: 6,  max:8, message: "密码6-8位", trigger: "blur" }
         ]
       }
     };
@@ -51,7 +51,7 @@ export default {
               console.log("1231:" + response);
               // 成功
               if (response.data.returnCode === "0") {
-      
+                localStorage.setItem("token", response.data.userKey);
                 this.$message({
                   showClose: true,
                   message: "恭喜你，这是一条成功消息",
