@@ -51,7 +51,6 @@ public class UserController extends BaseServiceImpl {
         if(users != null && users.size() > 0){
             String id = String.valueOf(users.get(0).get("user_id"));
             String token = jwtUtils.getToken(id, username);
-            Claims claims = jwtUtils.parseJwt(token);
             outPutObject.setUserKey(token);
             outPutObject.setBeans(users);
         }else {

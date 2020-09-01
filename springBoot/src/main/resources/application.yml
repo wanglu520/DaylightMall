@@ -55,7 +55,7 @@ spring:
 jwt:
   config:
     key: userLogin
-    failureTime: 360000
+    failureTime: 301000
 
 
 
