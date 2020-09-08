@@ -40,7 +40,7 @@ export default new Router({
       children: [
         {
           path: 'user',
-          component: Login,
+          component: () => import('@/views/user/user'),
           name: 'user',
           meta: {
             title: '会员管理'

@@ -26,7 +26,7 @@ management:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.example.service.dao
-  column-underline: true
+
 #配置
 spring:
   #jdbc信息

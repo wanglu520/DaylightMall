@@ -16,11 +16,13 @@
     </el-form>
   </div>
 </template>
-    <script>
+<script>
+import { login } from "@/api/user";
+
 export default {
   data() {
     return {
-      err:false,
+      err: false,
       form: {
         username: "admin",
         password: "123456"
@@ -32,7 +34,7 @@ export default {
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          { min: 6,  max:8, message: "密码6-8位", trigger: "blur" }
+          { min: 6, max: 8, message: "密码6-8位", trigger: "blur" }
         ]
       }
     };
@@ -45,8 +47,7 @@ export default {
         console.log(this.form); //验证通过为true，有一个不通过就是false
         if (valid) {
           // 通过的逻辑
-          this.$ajax
-            .post("user/login", this.form)
+          login(this.form)
             .then(response => {
               console.log("1231:" + response);
               // 成功
@@ -58,17 +59,18 @@ export default {
                   type: ""
                 });
                 this.$router.push("/main");
-              }else{//账号或密码不正确
+              } else {
+                //账号或密码不正确
                 this.err = true;
               }
             })
             .catch(error => {
               // 请求失败处理
-              console.log(`error:${{error}}`);
+              console.log(`error:${{ error }}`);
               this.$message({
-                showClose:true,
-                message:error,
-                type:"error"
+                showClose: true,
+                message: error,
+                type: "error"
               });
             });
         } else {
@@ -106,8 +108,8 @@ export default {
 }
 
 /* 登录失败提示 */
-.login-errInfo{
-  color: #F56C6C;
+.login-errInfo {
+  color: #f56c6c;
   font-size: 12px;
 }
 </style>

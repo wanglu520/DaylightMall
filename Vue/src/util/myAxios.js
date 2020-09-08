@@ -1,13 +1,17 @@
 import axios from 'axios'
 import router from '../router'
 
-axios.defaults.baseURL = '/api' // 关键代码
-// 请求超时时间
-axios.defaults.timeout = 10000
-// post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+const service = axios.create({
+  baseURL: '/api', // 关键代码
+  timeout: 10000 // 请求超时时间
+})
+// axios.defaults.baseURL = '/api' // 关键代码
+// // 请求超时时间
+// axios.defaults.timeout = 10000
+// // post请求头
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 // 请求拦截
-axios.interceptors.request.use(
+service.interceptors.request.use(
   config => {
     if (localStorage.getItem('token')) {
       config.headers.Authorization = localStorage.getItem('token')
@@ -19,7 +23,7 @@ axios.interceptors.request.use(
   }
 )
 // 响应拦截器
-axios.interceptors.response.use(
+service.interceptors.response.use(
   response => {
     if (response.status === 200) {
       return Promise.resolve(response)
@@ -42,4 +46,4 @@ axios.interceptors.response.use(
     }
   }
 )
-export default class myAxios extends axios { }
+export default service

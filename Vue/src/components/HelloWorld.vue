@@ -45,6 +45,7 @@ import AsideBar from "./asideBar/AsideBar";
 import Header from "./asideBar/Header";
 import MainBar from "./asideBar/MainArea";
 import TagViews from "./asideBar/tagViews";
+import {queryMenu} from "@/api/user";
 
 export default {
   data() {
@@ -65,8 +66,7 @@ export default {
   },
   computed: {
     menubeans() {
-      this.$ajax
-        .post("menu/queryMenu", { userId: "1" })
+      queryMenu({ userId: "1" })
         .then(response => {
           let beans = response.data.beans || [];
           this.beans.length = 0;
