@@ -45,6 +45,13 @@ export default new Router({
           meta: {
             title: '会员管理'
           }
+        }, {
+          path: 'address',
+          component: () => import('@/views/user/address'),
+          name: 'address',
+          meta: {
+            title: '收货地址'
+          }
         }
       ]
     },

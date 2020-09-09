@@ -31,3 +31,11 @@ export function updateDetail (data) {
     data
   })
 }
+
+export function userAddress (data) {
+  return request({
+    url: 'userAdmin/queryUserAddress',
+    method: 'post',
+    data
+  });
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.service.mapper.UserAddressMapper">
+    <!--实体映射-->
+    <resultMap id="UserAddressResultMap" type="java.util.Map">
+        <!--ID-->
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <!--收货人名称-->
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <!--用户表的用户ID-->
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <!--行政区域表的省ID-->
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <!--行政区域表的市ID-->
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <!--行政区域表的区县ID-->
+        <result property="county" column="county" jdbcType="VARCHAR"/>
+        <!--详细收货地址-->
+        <result property="addressDetail" column="address_detail" jdbcType="VARCHAR"/>
+        <!--地区编码-->
+        <result property="areaCode" column="area_code" jdbcType="CHAR"/>
+        <!--邮政编码-->
+        <result property="postalCode" column="postal_code" jdbcType="CHAR"/>
+        <!--手机号码-->
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <!--创建时间-->
+        <result property="add_time" column="add_time" jdbcType="TIMESTAMP"/>
+        <!--更新时间-->
+        <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+        <!--逻辑删除 0-正常， 1-删除-->
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List1">
+		id,name,user_id,province,city,county,address_detail,area_code,postal_code,tel,add_time,update_time
+	</sql>
+    <select id="queryUserAddress" resultMap="UserAddressResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List1"/>
+        FROM t_user_address
+        <where>
+            <if test="userId != null and userId !='' ">
+                and user_id = #{userId}
+            </if>
+            <if test="name != null and name !='' ">
+                and name = #{name}
+            </if>
+        </where>
+        order by id ${sortType}
+        limit #{page}, #{limit}
+    </select>
+    <select id="queryUserAddressTotal" resultType="Integer" parameterType="java.util.Map">
+        SELECT
+        count(id)
+        FROM t_user_address
+        <where>
+            <if test="userId != null and userId !='' ">
+                and user_id = #{userId}
+            </if>
+            <if test="name != null and name !='' ">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+    <update id="updateDetail" parameterType="java.util.Map">
+      update t_member set
+          user_name = #{userName},
+          user_phone=#{userPhone},
+          user_email=#{userEmail},
+          gender=#{gender},
+          birthday=#{birthday},
+          level=#{level},
+          state=#{state},
+          nickname=#{nickname}
+      where user_id = #{userId}
+    </update>
+</mapper>

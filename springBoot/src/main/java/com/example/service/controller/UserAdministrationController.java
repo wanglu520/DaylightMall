@@ -25,4 +25,8 @@ public class UserAdministrationController{
     public @ResponseBody OutPutObject updateDetail(@RequestBody Map body){
         return userAdministrationImpl.updateDetail(body);
     }
+    @RequestMapping(value = "/queryUserAddress", method = RequestMethod.POST)
+    public @ResponseBody OutPutObject queryUserAddress(@RequestBody Map body){
+        return userAdministrationImpl.queryUserAddress(body);
+    }
 }
