@@ -4,27 +4,27 @@
     <!--实体映射-->
     <resultMap id="UserAdminiResultMap" type="java.util.Map">
         <!--用户ID-->
-        <id property="userId" column="user_id" jdbcType="VARCHAR" />
+        <id property="userId" column="user_id" jdbcType="VARCHAR"/>
         <!--用户名-->
-        <result property="userName" column="user_name" jdbcType="VARCHAR" />
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <!--手机号-->
-        <result property="userPhone" column="user_phone" jdbcType="VARCHAR" />
+        <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
         <!--邮箱-->
-        <result property="userEmail" column="user_email" jdbcType="VARCHAR" />
+        <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
         <!--性别-->
-        <result property="gender" column="gender" jdbcType="VARCHAR" />
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
         <!--生日-->
-        <result property="birthday" column="birthday" jdbcType="VARCHAR" />
+        <result property="birthday" column="birthday" jdbcType="VARCHAR"/>
         <!--等级(0-普通会员，1-VIP用户，2-高级VIP用户)-->
-        <result property="level" column="level" jdbcType="VARCHAR" />
+        <result property="level" column="level" jdbcType="VARCHAR"/>
         <!--状态(0-可用，1-禁用，2-注销)-->
-        <result property="state" column="state" jdbcType="VARCHAR" />
+        <result property="state" column="state" jdbcType="VARCHAR"/>
         <!--昵称-->
-        <result property="nickname" column="nickname" jdbcType="VARCHAR" />
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
         <!--密码-->
-        <result property="passWord" column="passWord" jdbcType="VARCHAR" />
+        <result property="passWord" column="passWord" jdbcType="VARCHAR"/>
         <!--更新时间-->
-        <result property="updateDataTime" column="update_dataTime" jdbcType="VARCHAR" />
+        <result property="updateDataTime" column="update_dataTime" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 通用查询结果列-->
     <sql id="Base_Column_List">
@@ -64,4 +64,16 @@
             </if>
         </where>
     </select>
+    <update id="updateDetail" parameterType="java.util.Map">
+      update t_member set
+          user_name = #{userName},
+          user_phone=#{userPhone},
+          user_email=#{userEmail},
+          gender=#{gender},
+          birthday=#{birthday},
+          level=#{level},
+          state=#{state},
+          nickname=#{nickname}
+      where user_id = #{userId}
+    </update>
 </mapper>

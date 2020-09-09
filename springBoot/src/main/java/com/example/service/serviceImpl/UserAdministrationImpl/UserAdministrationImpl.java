@@ -27,5 +27,12 @@ public class UserAdministrationImpl extends BaseServiceImpl {
         }
         return outPutObject;
     }
-
+    public OutPutObject updateDetail(Map map){
+        OutPutObject out = getOutPutObject();
+        int count = userAdmin.updateDetail(map);
+        if(count != 1){
+            out.setReturnCode("9999");
+        }
+        return out;
+    }
 }

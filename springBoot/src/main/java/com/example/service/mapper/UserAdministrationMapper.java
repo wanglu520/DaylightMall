@@ -8,7 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserAdministrationMapper {
     //会员管理查询
-    List<Map<String,Object>> queryUserDetail(Map map);
+    List<Map<String, Object>> queryUserDetail(Map map);
+
     //会员管理总条数
     Integer queryUserDetailTotal(Map map);
+
+    //更新会员信息
+    Integer updateDetail(Map map);
 }

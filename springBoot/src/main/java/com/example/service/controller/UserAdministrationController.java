@@ -21,4 +21,8 @@ public class UserAdministrationController{
     public @ResponseBody OutPutObject userDetail(@RequestBody Map body){
         return userAdministrationImpl.userDetail(body);
     }
+    @RequestMapping(value = "/updateDetail", method = RequestMethod.POST)
+    public @ResponseBody OutPutObject updateDetail(@RequestBody Map body){
+        return userAdministrationImpl.updateDetail(body);
+    }
 }
