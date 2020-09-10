@@ -37,24 +37,18 @@ export default {
       this.$emit("changeCollapse");
     },
     getLevel() {
-      console.log("asdhkasdhjas");
-      console.log(this.$route);
-      
       this.levelList = this.$route.matched.filter(
         item => item.meta && item.meta.title
       );
       if(this.levelList.length === 0 || !this.levelList[0].meta || this.levelList[0].meta.title !== "首页"){
         this.levelList = [{path: '/main', meta: {title: '首页'}}].concat(this.levelList);
       }
-      console.log(this.levelList);
       
     },
     jumpPage(item) {
       if(item.meta.type && item.meta.type === "nogo"){
         return;
       }
-      console.log(this.$route.path);
-      
       this.$router.push(item.path);
     }
   }

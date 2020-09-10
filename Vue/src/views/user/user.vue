@@ -41,7 +41,7 @@
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
+        :current-page.sync="currentPage"
         :page-sizes="[5, 10, 15, 20]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -109,7 +109,7 @@
 
 <script>
 import { userDetail, updateDetail } from "@/api/user";
-import { Notification } from "element-ui";
+import { Notification, Loading } from "element-ui";
 export default {
   created() {
     this.queryUserDetail();
@@ -132,6 +132,7 @@ export default {
     },
     search() {
       this.params.page = 0;
+      this.currentPage = 1;
       this.queryUserDetail();
     },
     queryUserDetail() {
@@ -153,6 +154,9 @@ export default {
         .catch(() => {
           this.dialogVisible = false;
           Notification.error("更新失败");
+        })
+        .finally(()=>{
+          console.log("finally......");
         });
     }
   },
@@ -163,6 +167,7 @@ export default {
       tableData: [],
       userDetail: {},
       dialogVisible: false,
+      loading:null,
       statusDic: ["可用", "禁用", "注销"],
       levelDic: ["普通会员", "VIP", "高级VIP"],
       genderDic: ["男", "女", "未知"],

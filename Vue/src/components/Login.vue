@@ -94,13 +94,11 @@ export default {
       this.total = this.items.reduce((val1, val2) => {
         return val1 + val2.price * val2.num;
       }, 0);
-      console.log(this.total);
     },
     add(bean) {
       bean.num++;
       this.count++;
       this.total += bean.price;
-      console.log(bean.num);
     },
     sub(bean) {
       if (bean.num > 0) {

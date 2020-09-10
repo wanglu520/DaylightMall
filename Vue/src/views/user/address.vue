@@ -22,9 +22,8 @@
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
+        :current-page.sync="currentPage"
         :page-sizes="[5, 10, 15, 20]"
-        :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -44,6 +43,7 @@ export default {
         limit: 5
       },
       total: 0,
+      currentPage:1,
       addressInfo: []
     };
   },
@@ -58,6 +58,16 @@ export default {
           this.total = (response.data.bean||{}).total;
         })
         .catch();
+    },
+    handleSizeChange(val) {
+      this.params.limit = val;
+      this.params.page = 0;
+      this.currentPage = 1;
+      this.search();
+    },
+    handleCurrentChange(val) {
+      this.params.page = (val - 1) * this.params.limit;
+      this.search();
     }
   }
 };
