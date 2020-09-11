@@ -56,6 +56,25 @@ export default new Router({
       ]
     },
     {
+      path: '/mallManage',
+      name: 'mallManage',
+      component: Success,
+      meta: {
+        type: 'nogo',
+        title: '商场管理'
+      },
+      children: [
+        {
+          path: 'region',
+          component: () => import('@/views/mall/region'),
+          name: 'region',
+          meta: {
+            title: '行政区域'
+          }
+        }
+      ]
+    },
+    {
       path: '/test',
       name: 'Test',
       component: Test

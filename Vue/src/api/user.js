@@ -37,5 +37,5 @@ export function userAddress (data) {
     url: 'userAdmin/queryUserAddress',
     method: 'post',
     data
-  });
+  })
 }
