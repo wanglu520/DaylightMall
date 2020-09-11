@@ -55,7 +55,7 @@ spring:
 jwt:
   config:
     key: userLogin
-    failureTime: 301000
+    failureTime: 3010000
 #日志
 logging:
   level:
