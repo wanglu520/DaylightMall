@@ -71,6 +71,13 @@ export default new Router({
           meta: {
             title: '行政区域'
           }
+        },{
+          path: 'brand',
+          component: () => import('@/views/mall/brand'),
+          name: 'brand',
+          meta: {
+            title: '品牌制造商'
+          }
         }
       ]
     },
