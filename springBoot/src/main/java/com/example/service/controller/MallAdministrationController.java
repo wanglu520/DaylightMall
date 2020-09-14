@@ -21,5 +21,9 @@ public class MallAdministrationController {
     public  OutPutObject queryRegion(){
         return mallAdministration.queryRegion();
     }
+    @RequestMapping(value= "/queryBrand", method = RequestMethod.POST)
+    public @ResponseBody OutPutObject queryBrand(@RequestBody Map body){
+        return mallAdministration.queryBrand(body);
+    }
 
 }

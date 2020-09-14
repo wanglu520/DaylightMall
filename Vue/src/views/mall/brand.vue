@@ -12,34 +12,54 @@
     <el-table :data="tabeData" row-key="id" style="width: 100%;margin-bottom: 20px;" border>
       <el-table-column prop="id" label="品牌商id"></el-table-column>
       <el-table-column prop="name" label="品牌商名称"></el-table-column>
-      <el-table-column prop="pic_url" label="品牌商图片"></el-table-column>
-      <el-table-column prop="desc" label="介绍"></el-table-column>
-      <el-table-column prop="floor_price" label="底价"></el-table-column>
+      <el-table-column prop="picUrl" label="品牌商图片">
+        <template slot-scope="scope">
+          <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80">
+        </template>
+      </el-table-column>
+      <el-table-column prop="desc" align="center" min-width="400px" label="介绍"></el-table-column>
+      <el-table-column prop="floorPrice" label="底价"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100" align="center">
         <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
+          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+          <el-button type="text" size="small">编辑</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-export default {
-  data(){
-    return{
-      params:{
-        id:"",
-        name:""
-      },
-      tabeData:[]
-    }
-  },
-  methods:{
-    search(){
+import { queryBrand } from "@/api/mall";
+import { Notification } from "element-ui";
 
+export default {
+  data() {
+    return {
+      params: {
+        id: "",
+        name: "",
+        start: 0,
+        limit: 10
+      },
+      tabeData: [],
+      total:0
+    };
+  },
+  created(){
+    this.search();
+  },
+  methods: {
+    search() {
+      queryBrand(this.params)
+        .then(response => {
+          this.tabeData = response.data.beans || []; 
+          this.total = response.data.bean.total||0;
+        })
+        .catch(() => {
+          Notification.error("品牌制造商信息查询异常");
+        });
     }
   }
-}
+};
 </script>

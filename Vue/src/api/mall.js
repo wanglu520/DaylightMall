@@ -6,3 +6,11 @@ export function region () {
     method: 'post'
   })
 }
+
+export function queryBrand(data){
+  return request({
+    url:'mall/queryBrand',
+    method:'post',
+    data
+  })
+}

@@ -1,12 +1,14 @@
 package com.example.service.serviceImpl.Impl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.example.service.OutPutObject;
 import com.example.service.Utils.ListUtil;
+import com.example.service.mapper.BrandMapper;
 import com.example.service.mapper.RegionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class MallAdministrationImpl extends BaseServiceImpl {
     @Autowired(required = false)
     RegionMapper regionMapper;
+    @Autowired(required = false)
+    BrandMapper brandMapper;
 
     /**
      * 查询区域地址
@@ -52,4 +56,11 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         return out;
     }
 
+    public OutPutObject queryBrand(Map map){
+        OutPutObject out = getOutPutObject();
+        out.setBeans(brandMapper.queryBrand(map));
+        int count = brandMapper.queryBrandTotal(map);
+        out.setBean(new HashMap<String, Object>(){{put("total", count);}});
+        return out;
+    }
 }
