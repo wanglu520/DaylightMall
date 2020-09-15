@@ -7,10 +7,20 @@ export function region () {
   })
 }
 
-export function queryBrand(data){
+export function queryBrand (data) {
   return request({
-    url:'mall/queryBrand',
-    method:'post',
+    url: 'mall/queryBrand',
+    method: 'post',
     data
+  })
+}
+
+export function deleteBrand (id) {
+  return request({
+    url: 'mall/deleteBrand',
+    method: 'post',
+    data: {
+      id: id
+    }
   })
 }

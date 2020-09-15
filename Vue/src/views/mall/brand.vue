@@ -28,8 +28,8 @@
       <el-table-column prop="floorPrice" label="底价"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150" align="center">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="primary" size="small">查看</el-button>
-          <el-button type="danger" size="small">编辑</el-button>
+          <el-button @click="handleClick(scope.row)" type="primary" size="small">编辑</el-button>
+          <el-button @click="handleDeleted(scope.row.id)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import { queryBrand } from "@/api/mall";
-import { Notification } from "element-ui";
+import { queryBrand, deleteBrand } from "@/api/mall";
+import { Notification, Message } from "element-ui";
 import pagination from "@/components/Pagination";
 
 export default {
@@ -71,6 +71,25 @@ export default {
         .catch(() => {
           Notification.error("品牌制造商信息查询异常");
         });
+    },
+    handleDeleted(id){
+      if(!id){
+        Message.error("品牌商编码不存在，删除失败");
+      }
+      deleteBrand(id)
+      .then(response => {
+        if(response.data.returnCode === "0"){
+          Message.success("删除成功");
+        }else{
+          Message.error("删除失败");
+        }
+        this.search();
+      })
+      .catch(
+        () => {
+          Message.error("异常：删除失败，请联系管理人员");
+        }
+      )
     }
   }
 };

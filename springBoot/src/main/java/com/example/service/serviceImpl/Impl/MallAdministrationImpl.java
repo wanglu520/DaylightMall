@@ -56,11 +56,30 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         return out;
     }
 
+    /**
+     * 品牌制造商信息查询
+     * @param map
+     * @return
+     */
     public OutPutObject queryBrand(Map map){
         OutPutObject out = getOutPutObject();
         out.setBeans(brandMapper.queryBrand(map));
         int count = brandMapper.queryBrandTotal(map);
         out.setBean(new HashMap<String, Object>(){{put("total", count);}});
+        return out;
+    }
+
+    /**
+     * 删除品牌制造信息（逻辑删除）
+     * @param map
+     * @return
+     */
+    public OutPutObject deleteBrand(Map map){
+        OutPutObject out = getOutPutObject();
+        int count = brandMapper.deleteBrand(map);
+        if(count != 1){
+            out.setReturnCode("9999");
+        }
         return out;
     }
 }

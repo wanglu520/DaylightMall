@@ -20,8 +20,9 @@
         <include refid="Base_Column_List"/>
         FROM t_brand
         <where>
+            deleted = 0
             <if test="id != null and id != ''">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
@@ -33,5 +34,9 @@
         SELECT
           count(id)
         FROM t_brand
+        where deleted = 0
     </select>
+    <update id="deleteBrand" parameterType="java.util.Map">
+        update t_brand set deleted = 1 where id=#{id}
+    </update>
 </mapper>

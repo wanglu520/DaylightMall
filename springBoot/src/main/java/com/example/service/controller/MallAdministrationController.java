@@ -25,5 +25,9 @@ public class MallAdministrationController {
     public @ResponseBody OutPutObject queryBrand(@RequestBody Map body){
         return mallAdministration.queryBrand(body);
     }
+    @RequestMapping(value= "/deleteBrand", method = RequestMethod.POST)
+    public @ResponseBody OutPutObject deleteBrand(@RequestBody Map body){
+        return mallAdministration.deleteBrand(body);
+    }
 
 }

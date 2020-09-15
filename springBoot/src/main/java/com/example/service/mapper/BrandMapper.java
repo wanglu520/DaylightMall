@@ -20,4 +20,11 @@ public interface BrandMapper {
      * @return
      */
     Integer queryBrandTotal(Map map);
+
+    /**
+     *  删除制造商信息
+     * @param map
+     * @return
+     */
+    Integer deleteBrand (Map map);
 }
