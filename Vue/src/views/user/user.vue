@@ -124,6 +124,7 @@ export default {
       this.queryUserDetail();
     },
     queryUserDetail() {
+      this.params.start =( this.params.page - 1) * this.params.limit;
       userDetail(this.params)
         .then(response => {
           this.total = (response.data.bean || {}).total || 0;
@@ -164,8 +165,9 @@ export default {
         userName: "",
         userPhone: "",
         sortType: "asc",
-        page: 0,
-        limit: 5
+        page: 1,
+        limit: 5,
+        start:0
       }
     };
   }

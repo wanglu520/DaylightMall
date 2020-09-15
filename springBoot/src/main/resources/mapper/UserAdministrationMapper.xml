@@ -46,7 +46,7 @@
             </if>
         </where>
         order by (user_id+0) ${sortType}
-        limit #{page}, #{limit}
+        limit #{start}, #{limit}
     </select>
     <select id="queryUserDetailTotal" resultType="Integer" parameterType="java.util.Map">
         SELECT

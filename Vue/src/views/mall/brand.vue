@@ -33,12 +33,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination :page.sync="params.page" :limit.sync="params.limit" :total="total" @pagination="search" />
   </div>
 </template>
 
 <script>
 import { queryBrand } from "@/api/mall";
 import { Notification } from "element-ui";
+import pagination from "@/components/Pagination";
 
 export default {
   data() {
@@ -46,6 +48,7 @@ export default {
       params: {
         id: "",
         name: "",
+        page:1,
         start: 0,
         limit: 10
       },
@@ -53,11 +56,13 @@ export default {
       total: 0
     };
   },
+  components:{pagination},
   created() {
     this.search();
   },
   methods: {
     search() {
+      this.params.start = (this.params.page - 1) * this.params.limit;
       queryBrand(this.params)
         .then(response => {
           this.tabeData = response.data.beans || [];
