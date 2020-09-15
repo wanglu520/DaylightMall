@@ -13,16 +13,23 @@
       <el-table-column prop="id" label="品牌商id"></el-table-column>
       <el-table-column prop="name" label="品牌商名称"></el-table-column>
       <el-table-column prop="picUrl" label="品牌商图片">
-        <template slot-scope="scope">
-          <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80">
+        <template slot-scope="scope" v-viewer>
+          <!-- 
+          <div class="images" v-viewer>
+            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80" />
+          </div>
+          -->
+          <viewer>
+            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80" :key="scope.row.picUrl" />
+          </viewer>
         </template>
       </el-table-column>
       <el-table-column prop="desc" align="center" min-width="400px" label="介绍"></el-table-column>
       <el-table-column prop="floorPrice" label="底价"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="100" align="center">
+      <el-table-column fixed="right" label="操作" width="150" align="center">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button @click="handleClick(scope.row)" type="primary" size="small">查看</el-button>
+          <el-button type="danger" size="small">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,18 +50,18 @@ export default {
         limit: 10
       },
       tabeData: [],
-      total:0
+      total: 0
     };
   },
-  created(){
+  created() {
     this.search();
   },
   methods: {
     search() {
       queryBrand(this.params)
         .then(response => {
-          this.tabeData = response.data.beans || []; 
-          this.total = response.data.bean.total||0;
+          this.tabeData = response.data.beans || [];
+          this.total = response.data.bean.total || 0;
         })
         .catch(() => {
           Notification.error("品牌制造商信息查询异常");

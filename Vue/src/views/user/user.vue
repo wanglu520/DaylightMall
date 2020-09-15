@@ -36,7 +36,8 @@
       </el-table-column>
     </el-table>
     <!----分页--->
-    <div class="block">
+    <pagination v-show="total>0" :total="total" :page.sync="params.page" :limit.sync="params.limit" @pagination="queryUserDetail" />
+    <!-- <div class="block">
       <el-pagination
         background
         @size-change="handleSizeChange"
@@ -47,82 +48,69 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
-      <!-- 用户信息详情框 -->
-      <el-dialog title="用户编辑" :visible.sync="dialogVisible" :modal-append-to-body="false">
-        <el-form
-          ref="form"
-          :model="userDetail"
-          label-width="100px"
-          style="width: 400px; margin-left:50px;"
-        >
-          <el-form-item label="用户名">
-            <el-input v-model="userDetail.userName" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="用户昵称">
-            <el-input v-model="userDetail.nickname"></el-input>
-          </el-form-item>
-          <el-form-item label="用户密码">
-            <el-input v-model="userDetail.passWord"></el-input>
-          </el-form-item>
-          <el-form-item label="用户手机号">
-            <el-input v-model="userDetail.userPhone"></el-input>
-          </el-form-item>
-          <el-form-item label="用户性别">
-            <el-select v-model="userDetail.gender" placeholder="请选择">
-              <el-option
-                v-for="(item, index) in genderDic"
-                :key="index"
-                :label="item"
-                :value="index"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="用户等级">
-            <el-select v-model="userDetail.level" placeholder="请选择">
-              <el-option
-                v-for="(item, index) in levelDic"
-                :key="index"
-                :label="item"
-                :value="index"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-select v-model="userDetail.state" placeholder="请选择">
-              <el-option
-                v-for="(item, index) in statusDic"
-                :key="index"
-                :label="item"
-                :value="index"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="updateUserDetail">确 定</el-button>
-        </span>
-      </el-dialog>
-    </div>
+    </div> -->
+    <!-- 用户信息详情框 -->
+    <el-dialog title="用户编辑" :visible.sync="dialogVisible" :modal-append-to-body="false">
+      <el-form
+        ref="form"
+        :model="userDetail"
+        label-width="100px"
+        style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="用户名">
+          <el-input v-model="userDetail.userName" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="用户昵称">
+          <el-input v-model="userDetail.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码">
+          <el-input v-model="userDetail.passWord"></el-input>
+        </el-form-item>
+        <el-form-item label="用户手机号">
+          <el-input v-model="userDetail.userPhone"></el-input>
+        </el-form-item>
+        <el-form-item label="用户性别">
+          <el-select v-model="userDetail.gender" placeholder="请选择">
+            <el-option v-for="(item, index) in genderDic" :key="index" :label="item" :value="index"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户等级">
+          <el-select v-model="userDetail.level" placeholder="请选择">
+            <el-option v-for="(item, index) in levelDic" :key="index" :label="item" :value="index"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="userDetail.state" placeholder="请选择">
+            <el-option v-for="(item, index) in statusDic" :key="index" :label="item" :value="index"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateUserDetail">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { userDetail, updateDetail } from "@/api/user";
 import { Notification, Loading } from "element-ui";
+import Pagination from "@/components/Pagination";
 export default {
   created() {
     this.queryUserDetail();
   },
+  components:{Pagination},
   methods: {
-    handleSizeChange(val) {
-      this.params.limit = val;
-      this.search();
-    },
-    handleCurrentChange(val) {
-      this.params.page = (val - 1) * this.params.limit;
-      this.queryUserDetail();
-    },
+    // handleSizeChange(val) {
+    //   this.params.limit = val;
+    //   this.search();
+    // },
+    // handleCurrentChange(val) {
+    //   this.params.page = (val - 1) * this.params.limit;
+    //   this.queryUserDetail();
+    // },
     handleDetail(row) {
       row.gender = row.gender - 0;
       row.level = row.level - 0;
@@ -155,7 +143,7 @@ export default {
           this.dialogVisible = false;
           Notification.error("更新失败");
         })
-        .finally(()=>{
+        .finally(() => {
           console.log("finally......");
         });
     }
@@ -167,7 +155,7 @@ export default {
       tableData: [],
       userDetail: {},
       dialogVisible: false,
-      loading:null,
+      loading: null,
       statusDic: ["可用", "禁用", "注销"],
       levelDic: ["普通会员", "VIP", "高级VIP"],
       genderDic: ["男", "女", "未知"],

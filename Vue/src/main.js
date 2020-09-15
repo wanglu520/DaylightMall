@@ -8,7 +8,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/element-ui.css'
 import './styles/public.css'
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
 
+Vue.use(Viewer)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$ajax = axios
