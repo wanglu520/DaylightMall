@@ -74,4 +74,4 @@ export default {
   margin-left: 10px;
   padding-top: 2px;
 }
-</style>>
+</style>

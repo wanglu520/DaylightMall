@@ -24,3 +24,22 @@ export function deleteBrand (id) {
     }
   })
 }
+
+export function updateBrand (data) {
+  return request({
+    url: 'mall/updateBrand',
+    method: 'post',
+    data
+  })
+}
+
+export function addBrand (data) {
+  return request({
+    url: 'mall/addBrand',
+    method: 'post',
+    data
+  })
+}
+
+const uploadPath = process.env.VUE_APP_BASE_API + '/mall/uploadPhoto'
+export { uploadPath }

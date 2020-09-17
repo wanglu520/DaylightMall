@@ -1,5 +1,8 @@
 package com.example.service.serviceImpl.Impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +15,7 @@ import com.example.service.mapper.BrandMapper;
 import com.example.service.mapper.RegionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service("mallAdministrationImpl")
 public class MallAdministrationImpl extends BaseServiceImpl {
@@ -80,6 +84,44 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         if(count != 1){
             out.setReturnCode("9999");
         }
+        return out;
+    }
+
+    /**
+     * 更新数据
+     * @param map
+     * @return
+     */
+    public OutPutObject updateBrand(Map map){
+        OutPutObject out = getOutPutObject();
+        int count = brandMapper.updateBrand(map);
+        return out;
+    }
+
+    /**
+     * add Date
+     * @param map
+     * @return
+     */
+    public OutPutObject addBrand(Map map){
+        OutPutObject out = getOutPutObject();
+        map.put("addTime", LocalDateTime.now());
+        brandMapper.addBrand(map);
+        out.setBean(map);
+        return out;
+    }
+
+    /**
+     *
+     * @param file
+     * @return
+     */
+    public OutPutObject uploadPhoto(MultipartFile file) throws IOException {
+        OutPutObject out = getOutPutObject();
+        String fileName = file.getOriginalFilename();
+        InputStream inputStream = file.getInputStream();
+        long contentLength = file.getSize();
+        String contentType = file.getContentType();
         return out;
     }
 }

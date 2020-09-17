@@ -28,6 +28,7 @@
                 and name = #{name}
             </if>
         </where>
+        order by update_time desc
         limit #{start}, #{limit}
     </select>
     <select id="queryBrandTotal" resultType="Integer" parameterType="java.util.Map">
@@ -36,7 +37,68 @@
         FROM t_brand
         where deleted = 0
     </select>
+    <!--逻辑删除-->
     <update id="deleteBrand" parameterType="java.util.Map">
         update t_brand set deleted = 1 where id=#{id}
     </update>
+    <!--更新-->
+    <update id="updateBrand" parameterType="java.util.Map">
+        update t_brand
+        <set>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="desc != null">
+                `desc` = #{desc},
+            </if>
+            <if test="picUrl != null">
+                pic_url = #{picUrl},
+            </if>
+            <if test="floorPrice != null">
+                floor_price = #{floorPrice},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--新增-->
+    <insert id="addBrand" parameterType="java.util.Map">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into  t_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="desc != null">
+                `desc`,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+            <if test="floorPrice != null">
+                floor_price,
+            </if>
+            <if test="addTime != null">
+                add_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="desc != null">
+                #{desc},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl},
+            </if>
+            <if test="floorPrice != null">
+                #{floorPrice},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+        </trim>
+    </insert>
 </mapper>

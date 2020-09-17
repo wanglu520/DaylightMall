@@ -27,4 +27,18 @@ public interface BrandMapper {
      * @return
      */
     Integer deleteBrand (Map map);
+
+    /**
+     * 更新数据
+     * @param map
+     * @return
+     */
+    Integer updateBrand(Map map);
+
+    /**
+     * 新增
+     * @param map
+     * @return
+     */
+    Integer addBrand(Map map);
 }
