@@ -20,7 +20,7 @@
           </div>
           -->
           <viewer>
-            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80" :key="scope.row.picUrl" />
+            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="80" height="40" :key="scope.row.picUrl" />
           </viewer>
         </template>
       </el-table-column>
@@ -64,7 +64,8 @@
           <el-upload
             class="avatar-uploader"
             :headers="headers"
-            action=""
+            :action="uploadPath"
+            :on-success="uploadPicUrl"
             :show-file-list="false"
             accept=".jpg,.jpeg,.png,.gif"
           >
@@ -93,13 +94,16 @@
 </template>
 
 <script>
-import { queryBrand, deleteBrand, updateBrand, addBrand } from "@/api/mall";
+import { queryBrand, deleteBrand, updateBrand, addBrand, uploadPath } from "@/api/mall";
 import { Notification, Message } from "element-ui";
 import pagination from "@/components/Pagination";
 
 export default {
   data() {
+    console.log(process)
+    
     return {
+      uploadPath,
       params: {
         id: "",
         name: "",
@@ -133,6 +137,7 @@ export default {
   },
   methods: {
     search() {
+      console.log(process)
       this.params.start = (this.params.page - 1) * this.params.limit;
       queryBrand(this.params)
         .then(response => {
@@ -207,6 +212,9 @@ export default {
             });
         }
       });
+    },
+    uploadPicUrl(response){
+      this.brandDetail.url = response.bean.url;
     },
     handleUpdateClick(bean) {
       this.title = "编辑";

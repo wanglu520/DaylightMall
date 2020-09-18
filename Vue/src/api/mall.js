@@ -41,5 +41,5 @@ export function addBrand (data) {
   })
 }
 
-const uploadPath = process.env.VUE_APP_BASE_API + '/mall/uploadPhoto'
+const uploadPath = 'http://localhost:8088/mall/uploadPhoto'
 export { uploadPath }
