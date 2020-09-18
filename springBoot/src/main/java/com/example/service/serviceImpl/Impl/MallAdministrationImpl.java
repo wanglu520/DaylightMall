@@ -2,17 +2,21 @@ package com.example.service.serviceImpl.Impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.service.OutPutObject;
 import com.example.service.Utils.ListUtil;
 import com.example.service.mapper.BrandMapper;
 import com.example.service.mapper.RegionMapper;
+import com.example.service.mapper.StorageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +27,8 @@ public class MallAdministrationImpl extends BaseServiceImpl {
     RegionMapper regionMapper;
     @Autowired(required = false)
     BrandMapper brandMapper;
+    @Autowired(required = false)
+    StorageMapper storageMapper;
 
     /**
      * 查询区域地址
@@ -122,6 +128,28 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         InputStream inputStream = file.getInputStream();
         long contentLength = file.getSize();
         String contentType = file.getContentType();
+        //String imgFilePrefix = new SimpleDateFormat("yyyyMMddHHmmssssss").format(Calendar.getInstance().getTime());
+        String key = generateKey(fileName);
+        String url = generateUrl(key);
+        Map<String, Object> map = new HashMap<String, Object>(){{
+            put("name", fileName);
+            put("size", contentLength);
+            put("type", contentType);
+            put("key", key);
+            put("url", url);
+            put("addTime", LocalDateTime.now());
+        }};
+        storageMapper.uploadPhoto(map);
+        out.setBean(map);
         return out;
+    }
+
+    private String generateKey(String fileName){
+        int index = fileName.lastIndexOf('.');
+        String suffix = fileName.substring(index);
+        return UUID.randomUUID()+suffix;
+    }
+    private String generateUrl(String key){
+        return "http://localhost:8088/picture/"+key;
     }
 }

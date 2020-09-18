@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 public class GlobalReturnConfigServiceImpl {
     private static final Map<String, Object> bean = new HashMap<>();
@@ -34,11 +34,15 @@ public class GlobalReturnConfigServiceImpl {
         @Override
         //统一处理返回前端的数据;
         public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-            OutPutObject out = (OutPutObject)(body);
-            out.setReturnCode(out.getReturnCode() != null ? out.getReturnCode() : "0");
-            out.setBean(out.getBean() != null ? out.getBean() : bean);
-            out.setBeans(out.getBeans() != null ? out.getBeans() : beans);
-            return out;
+            String contentType = selectedContentType.toString();
+            if("application/json".equals(contentType)){
+                OutPutObject out = (OutPutObject)(body);
+                out.setReturnCode(out.getReturnCode() != null ? out.getReturnCode() : "0");
+                out.setBean(out.getBean() != null ? out.getBean() : bean);
+                out.setBeans(out.getBeans() != null ? out.getBeans() : beans);
+                return out;
+            }
+            return body;
         }
 
 
