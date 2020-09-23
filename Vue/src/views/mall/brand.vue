@@ -66,6 +66,7 @@
             :headers="headers"
             :action="uploadPath"
             :on-success="uploadPicUrl"
+            :on-error="uploadErr"
             :show-file-list="false"
             accept=".jpg,.jpeg,.png,.gif"
           >
@@ -215,6 +216,9 @@ export default {
     },
     uploadPicUrl(response){
       this.brandDetail.url = response.bean.url;
+    },
+    uploadErr(response){
+      this.$message.error(`上传图片失败:${response.data}`);
     },
     handleUpdateClick(bean) {
       this.title = "编辑";

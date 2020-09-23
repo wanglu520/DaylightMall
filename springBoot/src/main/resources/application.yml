@@ -51,6 +51,10 @@ spring:
       min-idle: 0
       # 连接池最大阻塞等待时间（使用负值表示没有限制）
       max-wait: -1
+  #
+  servlet:
+    multipart:
+      max-file-size: 10MB
 #jwt配置
 jwt:
   config:

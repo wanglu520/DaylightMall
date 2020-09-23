@@ -1,7 +1,14 @@
-package com.example.service.serviceImpl.Impl;
+package com.example.service.serviceImpl.MallAdministrationImpl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -17,6 +24,7 @@ import com.example.service.Utils.ListUtil;
 import com.example.service.mapper.BrandMapper;
 import com.example.service.mapper.RegionMapper;
 import com.example.service.mapper.StorageMapper;
+import com.example.service.serviceImpl.Impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -131,6 +139,7 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         //String imgFilePrefix = new SimpleDateFormat("yyyyMMddHHmmssssss").format(Calendar.getInstance().getTime());
         String key = generateKey(fileName);
         String url = generateUrl(key);
+        store(inputStream, key);
         Map<String, Object> map = new HashMap<String, Object>(){{
             put("name", fileName);
             put("size", contentLength);
@@ -144,12 +153,21 @@ public class MallAdministrationImpl extends BaseServiceImpl {
         return out;
     }
 
+    private void store(InputStream inputStream, String key){
+        try {
+            Path root = Paths.get("springBoot\\src\\main\\resources\\static\\picture\\mall");
+            Files.copy(inputStream, root.resolve(key),StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String generateKey(String fileName){
         int index = fileName.lastIndexOf('.');
         String suffix = fileName.substring(index);
         return UUID.randomUUID()+suffix;
     }
     private String generateUrl(String key){
-        return "http://localhost:8088/picture/"+key;
+        return "http://localhost:8088/picture/mall/"+key;
     }
 }

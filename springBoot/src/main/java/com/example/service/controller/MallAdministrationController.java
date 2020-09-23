@@ -1,11 +1,10 @@
 package com.example.service.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import com.example.service.OutPutObject;
-import com.example.service.serviceImpl.Impl.MallAdministrationImpl;
+import com.example.service.serviceImpl.MallAdministrationImpl.MallAdministrationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
