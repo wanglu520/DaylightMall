@@ -75,7 +75,6 @@
                 v-if="brandDetail.picUrl"
                 :src="brandDetail.picUrl"
                 class="avatar"
-                :key="brandDetail.picUrl"
               />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </viewer>
@@ -117,7 +116,8 @@ export default {
       dialogVisible: false,
       title: "",
       brandDetail: {
-        name: ""
+        name: "",
+        picUrl:"http://localhost:8088/picture/mall/5fa0b2a7-cdaf-43d3-ab13-9495c8e8afe1.png"
       },
       oldBranDetail: {},
       rules: {
@@ -167,7 +167,9 @@ export default {
         });
     },
     handleAddClick() {
-      this.brandDetail = {};
+      this.brandDetail = {
+        picUrl:undefined
+      };
       this.dialogVisible = true;
       this.title = "创建";
     },
@@ -215,7 +217,7 @@ export default {
       });
     },
     uploadPicUrl(response){
-      this.brandDetail.url = response.bean.url;
+      this.brandDetail.picUrl = response.bean.url;
     },
     uploadErr(response){
       this.$message.error(`上传图片失败:${response.data}`);

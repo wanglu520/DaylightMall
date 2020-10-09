@@ -21,4 +21,17 @@ public class WebAppConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/login");
     }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        String path = System.getProperty("user.dir")+"\\springBoot\\src\\main\\resources\\static\\picture\\mall";
+        String os = System.getProperty("os.name");
+        if(os.toLowerCase().startsWith("win")){
+            registry.addResourceHandler("/picture/**")
+                    .addResourceLocations("file:"+path);
+        }else {
+            registry.addResourceHandler("/picture/**").
+                    addResourceLocations("file:"+path);
+
+        }
+    }
 }
