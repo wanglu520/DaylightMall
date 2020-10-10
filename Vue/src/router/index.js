@@ -71,12 +71,31 @@ export default new Router({
           meta: {
             title: '行政区域'
           }
-        },{
+        }, {
           path: 'brand',
           component: () => import('@/views/mall/brand'),
           name: 'brand',
           meta: {
             title: '品牌制造商'
+          }
+        }
+      ]
+    },
+    {
+      path: '/goods',
+      name: 'goods',
+      component: Success,
+      meta: {
+        type: 'nogo',
+        title: '商品管理'
+      },
+      children: [
+        {
+          path: 'list',
+          component: () => import('@/views/mall/region'),
+          name: 'goodList',
+          meta: {
+            title: '商品列表'
           }
         }
       ]
