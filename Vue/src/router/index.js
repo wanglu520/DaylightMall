@@ -92,7 +92,7 @@ export default new Router({
       children: [
         {
           path: 'list',
-          component: () => import('@/views/mall/region'),
+          component: () => import('@/views/goods/list'),
           name: 'goodList',
           meta: {
             title: '商品列表'

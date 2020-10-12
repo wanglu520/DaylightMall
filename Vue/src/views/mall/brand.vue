@@ -117,7 +117,7 @@ export default {
       title: "",
       brandDetail: {
         name: "",
-        picUrl:"http://localhost:8088/picture/mall/5fa0b2a7-cdaf-43d3-ab13-9495c8e8afe1.png"
+        picUrl:""
       },
       oldBranDetail: {},
       rules: {
