@@ -35,18 +35,38 @@
 </template>
 
 <script>
+import {searchList} from '@/api/goods'
+import { Notification, Message } from "element-ui";
 export default {
   data(){
     return {
+      listLoading:true,
       params:{
         id:undefined,
         goodsSn:undefined,
         name:undefined
-      }
+      },
+      tabeData:[],
+      total:0
     }
   },
+  created(){
+    this.search();
+  },
   methods:{
-    search(){},
+    search(){
+      searchList(this.params)
+      .then(response => {
+        this.tabeData = response.data.beans || [];
+        this.total = response.data.bean.total || 0;
+      })
+      .catch(() => {
+        Notification.error("查询失败");
+      })
+      .finally(()=>{
+        this.listLoading = false;
+      });
+    },
     handleAddClick(){}
   }
 }
