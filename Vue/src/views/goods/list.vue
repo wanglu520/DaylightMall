@@ -17,19 +17,52 @@
       row-key="id"
       style="width: 100%;margin: 20px 0px;"
       border
+      header-align="center"
     >
       <el-table-column type="expand"></el-table-column>
-      <el-table-column prop="id" label="商品Id"></el-table-column>
-      <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="picUrl" label="图片"></el-table-column>
-      <el-table-column prop="shareUrl" label="分享图"></el-table-column>
-      <el-table-column prop="detail" label="详情"></el-table-column>
-      <el-table-column prop="counterPrice" label="市场售价"></el-table-column>
-      <el-table-column prop="retailPrice" label="当前价格"></el-table-column>
-      <el-table-column prop="isNew" label="是否新品"></el-table-column>
-      <el-table-column prop="isHot" label="是否热品"></el-table-column>
-      <el-table-column prop="isOnSale" label="是否在售"></el-table-column>
-      <el-table-column label="操作"></el-table-column>
+      <el-table-column align="center" prop="id" label="商品Id"></el-table-column>
+      <el-table-column align="center" prop="name" label="名称"></el-table-column>
+      <el-table-column align="center" prop="iconUrl" label="图片">
+        <template slot-scope="scope" >
+          <img :src="scope.row.picUrl" width="40" :key="scope.row.picUrl">
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="iconUrl" label="分享图">
+        <template slot-scope="scope">
+          <img :src="scope.row.shareUrl" width="40">
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="detail" label="详情">
+        <template slot-scope="scope">
+          <el-button type="primary" @click="showDetail(scope.row.detail)">查看</el-button>
+          <el-dialog title="商品详情"  :visible.sync="detailDialog" :modal-append-to-body="false">
+            <div class="goods-detail-box" v-html="goodsDetail" />
+          </el-dialog>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="counterPrice" label="市场售价"></el-table-column>
+      <el-table-column align="center" prop="retailPrice" label="当前价格"></el-table-column>
+      <el-table-column align="center" prop="isNew" label="是否新品">
+        <template slot-scope="scope">
+          <el-tag type="scope.row.isNew ? 'success' : 'error'">{{scope.row.isNew ? '新品' :'非新品'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="isHot" label="是否热品">
+        <template slot-scope="scope">
+          <el-tag type="scope.row.isHot ? 'success' : 'error'">{{scope.row.isHot ? '热品' :'非热品'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="isOnSale" label="是否在售">
+        <template slot-scope="scope">
+          <el-tag type="scope.row.isOnSale ? 'success' : 'error'">{{scope.row.isOnsale ? '在售' : '非在售'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column width="200" align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini">编辑</el-button>
+          <el-button type="danger" size="mini">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -44,10 +77,14 @@ export default {
       params:{
         id:undefined,
         goodsSn:undefined,
-        name:undefined
+        name:undefined,
+        start:0,
+        limit:10
       },
       tabeData:[],
-      total:0
+      total:0,
+      detailDialog:false,
+      goodsDetail:''
     }
   },
   created(){
@@ -67,7 +104,11 @@ export default {
         this.listLoading = false;
       });
     },
-    handleAddClick(){}
+    handleAddClick(){},
+    showDetail(val){
+      this.detailDialog = true;
+      this.goodsDetail = val;
+    }
   }
 }
 </script>
