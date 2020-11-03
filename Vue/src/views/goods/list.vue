@@ -19,7 +19,34 @@
       border
       header-align="center"
     >
-      <el-table-column type="expand"></el-table-column>
+      <!-- 商品扩展信息 -->
+      <el-table-column type="expand">
+        <template slot-scope="scope">
+          <el-form label-width="100px" label-position="left" class="goods-table-expand">
+            <el-form-item label="商品编号">
+              <span>{{scope.row.goodsSn}}</span>
+            </el-form-item>
+            <el-form-item label="宣传画廊">
+              <img v-for="item in JSON.parse(scope.row.gallery)" :src="item" :key="item" class="form-gallery">
+            </el-form-item>
+            <el-form-item label="商品介绍">
+              <span>{{scope.row.brief}}</span>
+            </el-form-item>
+            <el-form-item label="商品单位">
+              <span>{{scope.row.unit}}</span>
+            </el-form-item>
+            <el-form-item label="商品关键字">
+              <span>{{scope.row.keywords}}</span>
+            </el-form-item>
+            <el-form-item label="类目ID">
+              <span>{{scope.row.categoryId}}</span>
+            </el-form-item>
+            <el-form-item label="品牌商ID">
+              <span>{{scope.row.brandId}}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="id" label="商品Id"></el-table-column>
       <el-table-column align="center" prop="name" label="名称"></el-table-column>
       <el-table-column align="center" prop="iconUrl" label="图片">
@@ -112,3 +139,12 @@ export default {
   }
 }
 </script>
+<style>
+  .goods-table-expand label{
+    color: #99a9bf;
+  }
+  .form-gallery{
+    height: 100px;
+    margin-right: 15px;
+  }
+</style>
