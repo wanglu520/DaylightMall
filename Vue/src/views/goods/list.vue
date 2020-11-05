@@ -5,7 +5,7 @@
       <el-input v-model="params.id" style="width: 160px;" placeholder="请输入商品ID" clearable></el-input>
       <el-input v-model="params.goodsSn" style="width: 160px;" placeholder="请输入商品编号" clearable></el-input>
       <el-input v-model="params.name" style="width: 160px;" placeholder="请输入商品名称" clearable></el-input>
-      <el-button type="primary" @click="search" icon="el-icon-search">查询</el-button>
+      <el-button type="primary" @click="queryByCondition" icon="el-icon-search">查询</el-button>
       <el-button type="primary" @click="handleAddClick" icon="el-icon-edit">添加</el-button>
       <el-button type="primary" icon="el-icon-download">导出</el-button>
     </el-row>
@@ -91,12 +91,20 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination 
+      :total.sync="total"
+      :page.sync="page"
+      :limit="params.limit"
+      @pagination="search"
+    ></pagination>
   </div>
 </template>
 
 <script>
 import {searchList} from '@/api/goods'
 import { Notification, Message } from "element-ui";
+import pagination from "@/components/Pagination";
+
 export default {
   data(){
     return {
@@ -106,19 +114,26 @@ export default {
         goodsSn:undefined,
         name:undefined,
         start:0,
-        limit:10
+        limit:5
       },
       tabeData:[],
       total:0,
+      page:1,
       detailDialog:false,
       goodsDetail:''
     }
   },
+  components:{pagination},
   created(){
     this.search();
   },
   methods:{
+    queryByCondition(){
+      this.page = 1;
+      this.search();
+    },
     search(){
+      this.params.start = (this.page - 1) * this.params.limit;
       searchList(this.params)
       .then(response => {
         this.tabeData = response.data.beans || [];
