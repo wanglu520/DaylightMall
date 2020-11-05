@@ -24,7 +24,9 @@
         <result column="is_new" jdbcType="BIT" property="isNew" />
         <result column="is_hot" jdbcType="BIT" property="isHot" />
         <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <!--专柜价格-->
         <result column="counter_price" jdbcType="DECIMAL" property="counterPrice" />
+        <!--零售价格-->
         <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
         <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />

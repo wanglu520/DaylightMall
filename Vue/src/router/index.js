@@ -97,6 +97,13 @@ export default new Router({
           meta: {
             title: '商品列表'
           }
+        },{
+          path: 'addGoods',
+          component: () => import('@/views/goods/addGoods'),
+          name: 'addGoods',
+          meta: {
+            title: '新建商品'
+          }
         }
       ]
     },

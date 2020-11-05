@@ -27,7 +27,12 @@
               <span>{{scope.row.goodsSn}}</span>
             </el-form-item>
             <el-form-item label="宣传画廊">
-              <img v-for="item in JSON.parse(scope.row.gallery)" :src="item" :key="item" class="form-gallery">
+              <img
+                v-for="item in JSON.parse(scope.row.gallery)"
+                :src="item"
+                :key="item"
+                class="form-gallery"
+              />
             </el-form-item>
             <el-form-item label="商品介绍">
               <span>{{scope.row.brief}}</span>
@@ -50,19 +55,19 @@
       <el-table-column align="center" prop="id" label="商品Id"></el-table-column>
       <el-table-column align="center" prop="name" label="名称"></el-table-column>
       <el-table-column align="center" prop="iconUrl" label="图片">
-        <template slot-scope="scope" >
-          <img :src="scope.row.picUrl" width="40" :key="scope.row.picUrl">
+        <template slot-scope="scope">
+          <img :src="scope.row.picUrl" width="40" :key="scope.row.picUrl" />
         </template>
       </el-table-column>
       <el-table-column align="center" prop="iconUrl" label="分享图">
         <template slot-scope="scope">
-          <img :src="scope.row.shareUrl" width="40">
+          <img :src="scope.row.shareUrl" width="40" />
         </template>
       </el-table-column>
       <el-table-column align="center" prop="detail" label="详情">
         <template slot-scope="scope">
           <el-button type="primary" @click="showDetail(scope.row.detail)">查看</el-button>
-          <el-dialog title="商品详情"  :visible.sync="detailDialog" :modal-append-to-body="false">
+          <el-dialog title="商品详情" :visible.sync="detailDialog" :modal-append-to-body="false">
             <div class="goods-detail-box" v-html="goodsDetail" />
           </el-dialog>
         </template>
@@ -81,85 +86,82 @@
       </el-table-column>
       <el-table-column align="center" prop="isOnSale" label="是否在售">
         <template slot-scope="scope">
-          <el-tag type="scope.row.isOnSale ? 'success' : 'error'">{{scope.row.isOnsale ? '在售' : '非在售'}}</el-tag>
+          <el-tag
+            type="scope.row.isOnSale ? 'success' : 'error'"
+          >{{scope.row.isOnsale ? '在售' : '非在售'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="200" align="center" label="操作">
-        <template slot-scope="scope">
+        <template slot-scope="">
           <el-button type="primary" size="mini">编辑</el-button>
           <el-button type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination 
-      :total.sync="total"
-      :page.sync="page"
-      :limit="params.limit"
-      @pagination="search"
-    ></pagination>
+    <pagination :total.sync="total" :page.sync="page" :limit="params.limit" @pagination="search"></pagination>
   </div>
 </template>
 
 <script>
-import {searchList} from '@/api/goods'
+import { searchList } from "@/api/goods";
 import { Notification, Message } from "element-ui";
 import pagination from "@/components/Pagination";
 
 export default {
-  data(){
+  data() {
     return {
-      listLoading:true,
-      params:{
-        id:undefined,
-        goodsSn:undefined,
-        name:undefined,
-        start:0,
-        limit:5
+      listLoading: true,
+      params: {
+        id: undefined,
+        goodsSn: undefined,
+        name: undefined,
+        start: 0,
+        limit: 5
       },
-      tabeData:[],
-      total:0,
-      page:1,
-      detailDialog:false,
-      goodsDetail:''
-    }
+      tabeData: [],
+      total: 0,
+      page: 1,
+      detailDialog: false,
+      goodsDetail: ""
+    };
   },
-  components:{pagination},
-  created(){
+  components: { pagination },
+  created() {
     this.search();
   },
-  methods:{
-    queryByCondition(){
+  methods: {
+    queryByCondition() {
       this.page = 1;
       this.search();
     },
-    search(){
+    search() {
       this.params.start = (this.page - 1) * this.params.limit;
       searchList(this.params)
-      .then(response => {
-        this.tabeData = response.data.beans || [];
-        this.total = response.data.bean.total || 0;
-      })
-      .catch(() => {
-        Notification.error("查询失败");
-      })
-      .finally(()=>{
-        this.listLoading = false;
-      });
+        .then(response => {
+          this.tabeData = response.data.beans || [];
+          this.total = response.data.bean.total || 0;
+        })
+        .catch(() => {
+          Notification.error("查询失败");
+        })
+        .finally(() => {
+          this.listLoading = false;
+        });
     },
-    handleAddClick(){},
-    showDetail(val){
+    handleAddClick() {},
+    showDetail(val) {
       this.detailDialog = true;
       this.goodsDetail = val;
     }
   }
-}
+};
 </script>
 <style>
-  .goods-table-expand label{
-    color: #99a9bf;
-  }
-  .form-gallery{
-    height: 100px;
-    margin-right: 15px;
-  }
+.goods-table-expand label {
+  color: #99a9bf;
+}
+.form-gallery {
+  height: 100px;
+  margin-right: 15px;
+}
 </style>
