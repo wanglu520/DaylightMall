@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       collapse: false,
-      isHid: true,
+      // isHid: true,
       iconClass: "el-icon-s-unfold",
       iconStyleClasses: "iconfont-def iconHead",
       currRoute: [],
@@ -65,6 +65,10 @@ export default {
     TagViews
   },
   computed: {
+    isHid(){
+      console.log(this.$store.state.app);
+      return this.$store.state.app.asideBar.open;
+    },
     menubeans() {
       queryMenu({ userId: "1" })
         .then(response => {

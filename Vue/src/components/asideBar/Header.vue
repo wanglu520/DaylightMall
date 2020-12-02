@@ -33,8 +33,10 @@ export default {
         "el-icon-s-fold": "el-icon-s-unfold"
       };
       this.iconClass = icons[this.iconClass];
-      //修改左侧导航菜单状态
-      this.$emit("changeCollapse");
+      //修改左侧导航菜单状态 (改为使用Vuex口罩)
+      //this.$emit("changeCollapse");
+      console.log(this.$store.state.app);
+      this.$store.state.app.asideBar.open = !this.$store.state.app.asideBar.open
     },
     getLevel() {
       this.levelList = this.$route.matched.filter(
