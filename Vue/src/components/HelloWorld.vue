@@ -46,6 +46,7 @@ import Header from "./asideBar/Header";
 import MainBar from "./asideBar/MainArea";
 import TagViews from "./asideBar/tagViews";
 import {queryMenu} from "@/api/user";
+import {mapGetters} from 'vuex';
 
 export default {
   data() {
@@ -65,9 +66,11 @@ export default {
     TagViews
   },
   computed: {
+    ...mapGetters([
+      'asideBar'
+    ]),
     isHid(){
-      console.log(this.$store.state.app);
-      return this.$store.state.app.asideBar.open;
+      return this.asideBar.open;
     },
     menubeans() {
       queryMenu({ userId: "1" })

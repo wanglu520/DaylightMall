@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -17,6 +18,11 @@ export default {
       iconStyleClasses: "iconfont-def iconHead",
       levelList: null
     };
+  },
+  computed:{
+    ...mapGetters([
+      'asideBar'
+    ])
   },
   watch: {
     $route() {
@@ -35,8 +41,7 @@ export default {
       this.iconClass = icons[this.iconClass];
       //修改左侧导航菜单状态 (改为使用Vuex口罩)
       //this.$emit("changeCollapse");
-      console.log(this.$store.state.app);
-      this.$store.state.app.asideBar.open = !this.$store.state.app.asideBar.open
+      this.asideBar.open = !this.asideBar.open
     },
     getLevel() {
       this.levelList = this.$route.matched.filter(
