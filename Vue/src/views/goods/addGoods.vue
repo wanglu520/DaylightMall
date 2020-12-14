@@ -38,7 +38,7 @@
           :on-success="uploadPicUrl"
           :on-exceed="handleExceed"
           :on-remove="handleRemove"
-          accept=".jpg,.jpeg,.png,.gif"
+          accept=".jpg, .jpeg, .png, .gif"
           list-type="picture-card"
         >
           <i class="el-icon-plus"></i>
@@ -53,11 +53,35 @@
           :on-success="handleSuccess"
           :on-exceed="handleExceed"
           :on-remove="handleRemove"
-          accept=".jpg,.jpeg,.png,.gif"
+          accept=".jpg, .jpeg, .png, .gif"
           list-type="picture-card"
         >
           <i class="el-icon-plus"></i>
         </el-upload>
+      </el-form-item>
+      <el-form-item label="商品单位">
+        <el-input v-model="form.unit" placeholder="件/个/盒"></el-input>
+      </el-form-item>
+      <el-form-item label="关键字">
+        <el-tag
+          v-for="tag in keywords"
+          :key="tag"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)"
+        >{{tag}}</el-tag>
+        <el-input
+          v-model="inputValue"
+          v-if="inputVisible"
+          size="small"
+          class="input-new-tag"
+          @blur="handleInputConfirm"
+          @keyup.enter.native="handleInputConfirm"
+        ></el-input>
+        <el-button v-else type="primary" class="button-new-tag" @click="showInput">+增加</el-button>
+      </el-form-item>
+      <el-form-item label="所属分类">
+        
       </el-form-item>
     </el-form>
   </div>
@@ -69,6 +93,9 @@ export default {
   data() {
     return {
       uploadPath,
+      keywords: [],
+      inputValue: undefined,
+      inputVisible: false,
       form: {
         goodsSn: undefined,
         name: undefined,
@@ -76,36 +103,52 @@ export default {
         isNew: true,
         isHot: false,
         isOnSale: true,
-        picUrl:undefined,
-        gallery:[]
+        picUrl: undefined,
+        gallery: [],
+        unit: undefined,
+        keywords: []
       },
       rules: {
         goodsSn: { required: true, message: "请输入商品编码", trigger: "blur" }
       }
     };
   },
-  computed:{
-    headers(){
+  computed: {
+    headers() {
       return {
-        Authorization : localStorage.getItem('token')
-      }
+        Authorization: localStorage.getItem("token")
+      };
     }
   },
   methods: {
-    uploadPicUrl(response){
+    uploadPicUrl(response) {
       this.form.picUrl = response.bean.url;
     },
-    handleRemove(){
-      this.form.picUrl="";
+    handleRemove() {
+      this.form.picUrl = "";
     },
-    handleExceed(files, fileList){
+    handleExceed(files, fileList) {
       this.$message.warning(`当前不能超过${fileList.length}个`);
     },
-    handleSuccess(response){
+    handleSuccess(response) {
       this.form.gallery.push(response.bean.url);
     },
-    handleGalleryRemove(){
-      
+    handleGalleryRemove() {},
+    handleClose(tag) {
+      this.keywords.splice(this.keywords.indexOf(tag), 1);
+    },
+    handleInputConfirm() {
+      this.inputVisible = false;
+      if (this.inputValue) {
+        this.keywords.push(this.inputValue);
+      }
+      this.inputValue = "";
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
     }
   }
 };
@@ -121,5 +164,17 @@ export default {
 }
 .goods_content label {
   font-weight: bold;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>
