@@ -13,6 +13,12 @@ public interface BrandMapper {
      * @return
      */
     List<Map<String, Object>> queryBrand(Map map);
+    /**
+     * 制造商信息查询
+     * @param map
+     * @return
+     */
+    List<Map<String, Object>> queryBrandAll(Map map);
 
     /**
      * 制造商信息总条数

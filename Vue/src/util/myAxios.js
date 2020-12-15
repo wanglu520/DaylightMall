@@ -39,7 +39,8 @@ service.interceptors.response.use(
     } else if (error.response && error.response.status === 401) { // token校验不通过
       localStorage.removeItem('token')
       router.replace({ path: '/' })
-      return Promise.reject(new Error('请重新登录'))
+      return new Error('请重新登录')
+      // return Promise.reject(new Error('请重新登录'))
     } else if (error.response && error.response.status) {
       return Promise.reject(error.response)
     } else {

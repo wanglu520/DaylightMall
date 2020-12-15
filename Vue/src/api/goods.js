@@ -7,3 +7,11 @@ export function searchList (data) {
     data
   })
 }
+
+export function queryCategory (data) {
+  return request({
+    url: 'goods/queryCategory',
+    method: 'post',
+    data
+  })
+}

@@ -31,6 +31,20 @@
         order by update_time desc
         limit #{start}, #{limit}
     </select>
+    <select id="queryBrandAll" resultMap="resultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_brand
+        <where>
+            deleted = 0
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
     <select id="queryBrandTotal" resultType="Integer" parameterType="java.util.Map">
         SELECT
           count(id)

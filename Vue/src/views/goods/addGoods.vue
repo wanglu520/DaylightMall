@@ -81,7 +81,16 @@
         <el-button v-else type="primary" class="button-new-tag" @click="showInput">+增加</el-button>
       </el-form-item>
       <el-form-item label="所属分类">
-        
+        <el-cascader
+          :options="classificationList"
+          :props="{expandTrigger:'hover'}"
+          @change="handleChange"
+        ></el-cascader>
+      </el-form-item>
+      <el-form-item label="所属品牌商">
+        <el-select v-model="form.brandId">
+          <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
   </div>
@@ -89,11 +98,15 @@
 
 <script>
 import { uploadPath } from "@/api/mall";
+import { queryCategory } from "@/api/goods";
+import { Notification } from "element-ui";
 export default {
   data() {
     return {
       uploadPath,
       keywords: [],
+      classificationList: [],
+      brandList: [],
       inputValue: undefined,
       inputVisible: false,
       form: {
@@ -106,7 +119,9 @@ export default {
         picUrl: undefined,
         gallery: [],
         unit: undefined,
-        keywords: []
+        keywords: "",
+        brandId: "",
+        categoryId:""
       },
       rules: {
         goodsSn: { required: true, message: "请输入商品编码", trigger: "blur" }
@@ -120,7 +135,21 @@ export default {
       };
     }
   },
+  created() {
+    this.queryCategory();
+  },
   methods: {
+    queryCategory() {
+      var data = { level: "L1" };
+      queryCategory(data)
+        .then(response => {
+          this.classificationList = response.data.beans || [];
+          this.brandList = response.data.bean.brandList || [];
+        })
+        .catch(() => {
+          Notification.error("所属分类查询失败");
+        });
+    },
     uploadPicUrl(response) {
       this.form.picUrl = response.bean.url;
     },
@@ -149,6 +178,9 @@ export default {
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
+    },
+    handleChange(val) {
+      this.goods.categoryId = value[value.length - 1]
     }
   }
 };

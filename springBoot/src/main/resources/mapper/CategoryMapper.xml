@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.service.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="java.util.Map">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <!--类目名称-->
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <!--类目关键字-->
+        <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+        <!--类目广告语介绍-->
+        <result column="desc" jdbcType="VARCHAR" property="desc" />
+        <!--父类目ID-->
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <!--类目图标-->
+        <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+        <!--类目图片-->
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+        <!--等级-->
+        <result column="level" jdbcType="BIT" property="level" />
+        <!--排序-->
+        <result column="sort_order" jdbcType="TINYINT" property="sortOrder" />
+        <!--创建时间-->
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+        <!--更新时间-->
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <!--逻辑删除-->
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, `name`, keywords, `desc`, pid, icon_url, pic_url, `level`,sort_order, add_time, update_time, deleted
+	</sql>
+    <select id="queryCategory" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        `name` as label,
+        `id` as `value`,
+        <include refid="Base_Column_List"/>
+        FROM t_category
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="level != null and level != ''">
+                and `level` = #{level}
+            </if>
+            <choose>
+                <when test="deleted !=null and deleted != ''">
+                    and deleted = #{deleted}
+                </when>
+                <otherwise>
+                    and deleted = 0
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>
