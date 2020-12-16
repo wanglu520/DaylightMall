@@ -92,6 +92,9 @@
           <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="商品介绍">
+        <el-input v-model="form.brief"></el-input>
+      </el-form-item>
     </el-form>
   </div>
 </template>
