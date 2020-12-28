@@ -5,6 +5,7 @@ import java.util.Map;
 import com.example.service.OutPutObject;
 import com.example.service.serviceImpl.GoodsImpl.GoodsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class GoodsController {
     GoodsImpl goods;
 
     @RequestMapping(value = "/queryGoods", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject queryGoods(@RequestBody Map body){
+    public OutPutObject queryGoods(@RequestBody Map body){
         return goods.queryGoods(body);
     }
     @PostMapping("/queryCategory")

@@ -35,14 +35,14 @@ public class UserController extends BaseServiceImpl {
         return users;
     }
     @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
-    public @ResponseBody User getUserById(@RequestBody Map body){
+    public User getUserById(@RequestBody Map body){
         String id = (String) body.get("username");
         String password = (String) body.get("password");
         User users = userMapper.getUserById(id);
         return users;
     }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject login(@RequestBody Map body){
+    public OutPutObject login(@RequestBody Map body){
         OutPutObject outPutObject = getOutPutObject();
         String username = (String) body.get("username");
         String password = (String) body.get("password");

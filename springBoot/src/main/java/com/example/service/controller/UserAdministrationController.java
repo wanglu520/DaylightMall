@@ -18,15 +18,15 @@ public class UserAdministrationController{
     private UserAdministrationImpl userAdministrationImpl;
 
     @RequestMapping(value = "/queryUserDetail", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject userDetail(@RequestBody Map body){
+    public OutPutObject userDetail(@RequestBody Map body){
         return userAdministrationImpl.userDetail(body);
     }
     @RequestMapping(value = "/updateDetail", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject updateDetail(@RequestBody Map body){
+    public OutPutObject updateDetail(@RequestBody Map body){
         return userAdministrationImpl.updateDetail(body);
     }
     @RequestMapping(value = "/queryUserAddress", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject queryUserAddress(@RequestBody Map body){
+    public OutPutObject queryUserAddress(@RequestBody Map body){
         return userAdministrationImpl.queryUserAddress(body);
     }
 }

@@ -35,7 +35,7 @@ public class GlobalReturnConfigServiceImpl {
         //统一处理返回前端的数据;
         public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
             String contentType = selectedContentType.toString();
-            if("application/json".equals(contentType)){
+            if("application/json".equals(contentType) && body instanceof OutPutObject){
                 OutPutObject out = (OutPutObject)(body);
                 out.setReturnCode(out.getReturnCode() != null ? out.getReturnCode() : "0");
                 out.setBean(out.getBean() != null ? out.getBean() : bean);

@@ -26,19 +26,19 @@ public class MallAdministrationController {
         return mallAdministration.queryRegion();
     }
     @RequestMapping(value= "/queryBrand", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject queryBrand(@RequestBody Map body){
+    public OutPutObject queryBrand(@RequestBody Map body){
         return mallAdministration.queryBrand(body);
     }
     @RequestMapping(value= "/deleteBrand", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject deleteBrand(@RequestBody Map body){
+    public OutPutObject deleteBrand(@RequestBody Map body){
         return mallAdministration.deleteBrand(body);
     }
     @RequestMapping(value= "/updateBrand", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject updateBrand(@RequestBody Map body){
+    public OutPutObject updateBrand(@RequestBody Map body){
         return mallAdministration.updateBrand(body);
     }
     @RequestMapping(value= "/addBrand", method = RequestMethod.POST)
-    public @ResponseBody OutPutObject addBrand(@RequestBody Map body){
+    public OutPutObject addBrand(@RequestBody Map body){
         return mallAdministration.addBrand(body);
     }
 
