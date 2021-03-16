@@ -93,9 +93,9 @@ public final class RedisUtils {
      * @param expireTime
      * @return
      */
-    public boolean setNX(final String key, Object value, Long expireTime){
+    public boolean setNX(final String key, Object value, Long expireTime, TimeUnit timeUnit){
         try{
-            Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
+            Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value, expireTime, timeUnit);
             return aBoolean;
         }catch (Exception e){
             logger.error("redis缓存写入异常:", e);

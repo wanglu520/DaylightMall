@@ -2,15 +2,20 @@ package com.example.service.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.example.service.OutPutObject;
 import com.example.service.Utils.JwtUtils;
+import com.example.service.Utils.RedisUtils;
 import com.example.service.dao.User;
 import com.example.service.mapper.UserMapper;
 import com.example.service.serviceImpl.Impl.BaseServiceImpl;
 import io.jsonwebtoken.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseServiceImpl {
+    private static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
+    int i =0;
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired(required=false)
     private UserMapper userMapper;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private RedisUtils redisUtils;
 
     @RequestMapping(value = "/findAll")
     public List<User> findAll(){
@@ -59,6 +69,45 @@ public class UserController extends BaseServiceImpl {
         }
         return outPutObject;
     }
-
+    @PostMapping(value = "/seckill")
+    public OutPutObject seckill(@RequestBody Map body){
+        OutPutObject out = getOutPutObject();
+        String offerId = (String) body.get("offerId");
+        //加分布式锁
+        String key = "offerId_"+offerId;
+        Boolean isLocked = redisUtils.setNX(key, "locking", 3L, TimeUnit.SECONDS);
+        if(!isLocked){
+            out.setReturnMessage("fail");
+            return out;
+        }
+        try {
+            int stock = getStock(redisUtils.get(offerId));
+            if(stock > 0){
+                stock -= 1;
+                redisUtils.set("123",stock);
+                out.setReturnMessage("sucess");
+                logger.info("库存扣减成功，当前库存为：{}", stock);
+            }else {
+                out.setReturnMessage("isEmpty");
+                logger.error("库存不足，扣减库存失败商品id：{}", offerId);
+            }
+        }finally {
+            //解锁
+            redisUtils.deleteKey(key);
+        }
+        return out;
+    }
+    public Integer getStock(Object obj){
+        int res = 0;
+        try {
+            if(obj != null){
+                res = (int) obj;
+            }
+            return res;
+        }catch (Exception e){
+            logger.error("金额转换异常",e);
+            return res;
+        }
+    }
 
 }
